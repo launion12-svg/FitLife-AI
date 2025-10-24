@@ -21,9 +21,9 @@ export const DumbbellIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => 
 );
 
 export const MessageIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 SvgPart="M21 12c0 4.556-4.03 8.25-9 8.25a9.76 9.76 0 01-2.53-.372A5.56 5.56 0 005.11 21.5a1 1 0 01-1-1 5.56 5.56 0 00-.372-2.53A9.76 9.76 0 013.75 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
-  </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227l.173.013h9.24a2.25 2.25 0 002.25-2.25v-6.572a2.25 2.25 0 00-2.25-2.25H6.375a2.25 2.25 0 00-2.25 2.25v6.572z" />
+    </svg>
 );
 
 export const SparklesIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (

@@ -1,24 +1,23 @@
-
-
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export const LanguageSwitcher: React.FC = () => {
   const { language, setLanguage } = useLanguage();
 
-  const buttonClasses = (lang: 'en' | 'es') => 
-    `px-3 py-1 text-sm font-bold rounded-md transition-colors ${
-      language === lang 
-        ? 'bg-primary text-white' 
-        : 'bg-surface text-on-surface-secondary hover:bg-gray-600'
-    }`;
-
   return (
-    <div className="absolute top-4 left-4 z-50 flex space-x-1 bg-surface p-1 rounded-lg shadow-lg">
-      <button onClick={() => setLanguage('en')} className={buttonClasses('en')}>
+    <div className="language-switch">
+      <button 
+        onClick={() => setLanguage('en')} 
+        className={`lang-btn ${language === 'en' ? 'active' : ''}`}
+        aria-label="Switch to English"
+      >
         EN
       </button>
-      <button onClick={() => setLanguage('es')} className={buttonClasses('es')}>
+      <button 
+        onClick={() => setLanguage('es')} 
+        className={`lang-btn ${language === 'es' ? 'active' : ''}`}
+        aria-label="Cambiar a Español"
+      >
         ES
       </button>
     </div>

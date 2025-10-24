@@ -4,28 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FitLife AI</title>
-    <script>
-      const h = location.hostname;
-      const isAIStudio = h.endsWith('usercontent.goog') || h === '' || location.protocol === 'blob:';
-      if (isAIStudio) {
-        var s = document.createElement('script');
-        s.src = 'https://cdn.tailwindcss.com';
-        document.head.appendChild(s);
-
-        var map = document.createElement('script');
-        map.type = 'importmap';
-        map.textContent = JSON.stringify({
-          imports: {
-            "react": "https://aistudiocdn.com/npm/react@18.2.0/index.js",
-            "react-dom": "https://aistudiocdn.com/npm/react-dom@18.2.0/index.js",
-            "react/jsx-runtime": "https://aistudiocdn.com/npm/react@18.2.0/jsx-runtime.js",
-            "@google/genai": "https://aistudiocdn.com/@google/genai@^1.27.0"
-          }
-        });
-        document.head.appendChild(map);
-      }
-    </script>
-<script type="importmap">
+  <script type="importmap">
 {
   "imports": {
     "react": "https://aistudiocdn.com/react@^19.2.0",

@@ -249,7 +249,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-background text-on-surface">
       <LanguageSwitcher />
-      <main className={`pb-20 ${!showNav ? 'h-screen' : ''}`}>
+      <main className={`pb-20 ${!showNav ? '' : ''}`}>
         {renderScreen()}
       </main>
       {showNav && (

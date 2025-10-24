@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FitLife AI (AI Studio)</title>
+
+    <!-- CSS ya compilado con Tailwind (generado en el build) -->
+    <link rel="stylesheet" href="/aistudio.css" />
+
+    <!-- React ESM para AI Studio -->
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://aistudiocdn.com/npm/react@18.2.0/index.js",
+          "react-dom": "https://aistudiocdn.com/npm/react-dom@18.2.0/index.js",
+          "react-dom/client": "https://aistudiocdn.com/npm/react-dom@18.2.0/client.js",
+          "react/jsx-runtime": "https://aistudiocdn.com/npm/react@18.2.0/jsx-runtime.js",
+          "@google/genai": "https://aistudiocdn.com/@google/genai@^1.27.0"
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-background text-on-surface">
+    <div id="root"></div>
+    <!-- Entrada sin bundler para el visor de AI Studio -->
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>

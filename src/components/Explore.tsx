@@ -1,8 +1,9 @@
 
-import React, { useState, useCallback, useRef } from 'react';
+
+import React, { useState, useCallback } from 'react';
 import { getGroundedResponse, getMapsResponse, generateImage, analyzeImage } from '../services/geminiService';
 import { LoadingSpinner } from './LoadingSpinner';
-import { SearchIcon, LocationMarkerIcon, PhotographIcon, DocumentSearchIcon, UploadIcon, CameraIcon } from './icons/Icons';
+import { SearchIcon, LocationMarkerIcon, PhotographIcon, DocumentSearchIcon, UploadIcon } from './icons/Icons';
 import { useLanguage } from '../contexts/LanguageContext';
 
 type ExploreFeature = 'search' | 'maps' | 'imageGen' | 'progress';
@@ -14,11 +15,10 @@ export const Explore: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState<{ text: string, sources?: any[], imageUrl?: string } | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const searchFileInputRef = useRef<HTMLInputElement>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!prompt || isLoading) return;
+        if (!prompt && activeFeature === 'search') return;
 
         setIsLoading(true);
         setError(null);
@@ -37,55 +37,42 @@ export const Explore: React.FC = () => {
                     const query = prompt || t('explore.mapsDefaultQuery');
                     const response = await getMapsResponse(query, { latitude, longitude }, language);
                     setResult({ text: response.text, sources: response.sources });
-                    setIsLoading(false);
                 }, (geoError) => {
                     setError(t('explore.geolocationError', { message: geoError.message }));
                     setIsLoading(false);
                 });
-                return; // Prevent setIsLoading(false) from being called twice
             }
         } catch (err) {
             console.error(err);
             setError(t('explore.genericError', { message: err instanceof Error ? err.message : '' }));
+        } finally {
+           if(activeFeature !== 'maps') setIsLoading(false);
         }
-        setIsLoading(false);
     };
     
-    const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>, analysisPromptKey: string, errorKey: string) => {
+    const handleProgressImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (!file) return;
 
         setIsLoading(true);
         setError(null);
         setResult(null);
-        setPrompt('');
 
         try {
             const reader = new FileReader();
             reader.onloadend = async () => {
                 const base64String = (reader.result as string).split(',')[1];
-                const analysisPrompt = t(analysisPromptKey);
+                const analysisPrompt = t('explore.progressAnalysisPrompt');
                 const analysisResult = await analyzeImage(base64String, file.type, analysisPrompt);
                 setResult({ text: analysisResult });
-                 if (event.target) {
-                    event.target.value = "";
-                }
             };
             reader.readAsDataURL(file);
         } catch (e) {
             console.error(e);
-            setError(t(errorKey));
+            setError(t('explore.progressAnalysisError'));
         } finally {
             setIsLoading(false);
         }
-    }
-    
-    const handleSearchImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        handleImageUpload(e, 'explore.productAnalysisPrompt', 'explore.uploadError');
-    }
-    
-    const handleProgressImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        handleImageUpload(e, 'explore.progressAnalysisPrompt', 'explore.progressAnalysisError');
     }
 
 
@@ -130,36 +117,6 @@ export const Explore: React.FC = () => {
                              <input type="file" className="hidden" accept="image/*" onChange={handleProgressImageUpload} disabled={isLoading}/>
                         </label>
                      </div>
-                ) : activeFeature === 'search' ? (
-                     <form onSubmit={handleSubmit} className="flex items-center gap-2">
-                        <input
-                            type="text"
-                            value={prompt}
-                            onChange={(e) => setPrompt(e.target.value)}
-                            placeholder={placeholder}
-                            className="flex-grow bg-background border border-gray-600 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary"
-                        />
-                        <button type="submit" disabled={isLoading || !prompt} className="bg-primary text-white p-2 rounded-lg hover:bg-primary-focus disabled:bg-gray-500 shrink-0">
-                           <SearchIcon className="w-6 h-6"/>
-                        </button>
-                         <input
-                            type="file"
-                            ref={searchFileInputRef}
-                            className="hidden"
-                            accept="image/*"
-                            capture="environment"
-                            onChange={handleSearchImageUpload}
-                        />
-                        <button
-                            type="button"
-                            onClick={() => searchFileInputRef.current?.click()}
-                            disabled={isLoading}
-                            className="bg-surface border border-gray-600 text-on-surface-secondary p-2 rounded-lg hover:bg-gray-700 disabled:bg-gray-500 shrink-0"
-                            aria-label={t('explore.searchWithImage')}
-                        >
-                            <CameraIcon className="w-6 h-6"/>
-                        </button>
-                    </form>
                 ) : (
                     <form onSubmit={handleSubmit} className="flex items-center">
                         <input
@@ -169,8 +126,8 @@ export const Explore: React.FC = () => {
                             placeholder={placeholder}
                             className="flex-grow bg-background border border-gray-600 rounded-l-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary"
                         />
-                        <button type="submit" disabled={isLoading || !prompt} className="bg-primary text-white p-2 rounded-r-lg hover:bg-primary-focus disabled:bg-gray-500">
-                            <SearchIcon className="w-6 h-6"/>
+                        <button type="submit" disabled={isLoading} className="bg-primary text-white p-2 rounded-r-lg hover:bg-primary-focus disabled:bg-gray-500">
+                            {isLoading ? <LoadingSpinner size={6} /> : <SearchIcon className="w-6 h-6"/>}
                         </button>
                     </form>
                 )}

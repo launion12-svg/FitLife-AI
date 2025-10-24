@@ -1,42 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FitLife AI</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'primary': '#10B981', // Emerald 500
-              'primary-focus': '#059669', // Emerald 600
-              'background': '#111827', // Gray 900
-              'surface': '#1F2937', // Gray 800
-              'on-surface': '#F9FAFB', // Gray 50
-              'on-surface-secondary': '#9CA3AF', // Gray 400
-            },
-          },
-        },
+      const h = location.hostname;
+      const isAIStudio = h.endsWith('usercontent.goog') || h === '' || location.protocol === 'blob:';
+      if (isAIStudio) {
+        var s = document.createElement('script');
+        s.src = 'https://cdn.tailwindcss.com';
+        document.head.appendChild(s);
+
+        var map = document.createElement('script');
+        map.type = 'importmap';
+        map.textContent = JSON.stringify({
+          imports: {
+            "react": "https://aistudiocdn.com/npm/react@18.2.0/index.js",
+            "react-dom": "https://aistudiocdn.com/npm/react-dom@18.2.0/index.js",
+            "react/jsx-runtime": "https://aistudiocdn.com/npm/react@18.2.0/jsx-runtime.js",
+            "@google/genai": "https://aistudiocdn.com/@google/genai@^1.27.0"
+          }
+        });
+        document.head.appendChild(map);
       }
     </script>
-    <script type="importmap">
-      {
-        "imports": {
-          "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-          "@google/genai": "https://aistudiocdn.com/@google/genai@^1.27.0",
-          "react/": "https://aistudiocdn.com/react@^19.2.0/",
-          "react": "https://aistudiocdn.com/react@^19.2.0",
-          "vite": "https://aistudiocdn.com/vite@^7.1.12",
-          "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.0"
-        }
-      }
-    </script>
-  <link rel="stylesheet" href="/index.css">
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.27.0",
+    "vite": "https://aistudiocdn.com/vite@^7.1.12",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
 </head>
-  <body class="bg-background text-on-surface font-sans">
+  <body class="bg-background text-on-surface">
     <div id="root"></div>
     <script type="module" src="/src/index.tsx"></script>
   <script type="module" src="/index.tsx"></script>

@@ -1,3 +1,5 @@
+
+
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { getChatbot } from '../services/geminiService';
 import type { ChatMessage, UpdateMealHandler, NutritionPlan } from '../types';
@@ -8,7 +10,7 @@ const FormattedMessage: React.FC<{ text: string }> = ({ text }) => {
     const parts = text.split(/\*\*(.*?)\*\*/g);
     return (
         <p className="whitespace-pre-wrap">
-            {parts.map((part, i) =>
+            {parts.map((part, i) => 
                 i % 2 === 1 ? <strong key={i}>{part}</strong> : part
             )}
         </p>
@@ -27,10 +29,9 @@ export const Chatbot: React.FC<ChatbotProps> = ({ nutritionPlan, onUpdateMeal, m
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
-    const inputRef = useRef<HTMLInputElement>(null);
-
+    
     const chat = useMemo(() => getChatbot(language), [language]);
-
+    
     useEffect(() => {
         if (messages.length === 0) {
             setMessages([{ role: 'model', text: t('chatbot.welcomeMessage') }]);
@@ -52,18 +53,18 @@ export const Chatbot: React.FC<ChatbotProps> = ({ nutritionPlan, onUpdateMeal, m
         const contextHeader = language === 'es' ?
             "CONTEXTO: Este es el plan de nutrición actual del usuario. Úsalo para responder preguntas y realizar solicitudes de modificación." :
             "CONTEXT: Here is the user's current nutrition plan. Use it to answer questions and fulfill modification requests.";
-
+        
         const questionHeader = language === 'es' ? "PREGUNTA DEL USUARIO" : "USER QUESTION";
 
         const currentInputWithContext = `${contextHeader}\n\`\`\`json\n${JSON.stringify(nutritionPlan, null, 2)}\n\`\`\`\n\n${questionHeader}: ${input}`;
-
+        
         setInput('');
         setIsLoading(true);
 
         try {
             let response = await chat.sendMessage({ message: currentInputWithContext });
-
-            while (response.functionCalls && response.functionCalls.length > 0) {
+            
+            while(response.functionCalls && response.functionCalls.length > 0) {
                 const fc = response.functionCalls[0];
                 let result: any;
                 let success = false;
@@ -73,18 +74,17 @@ export const Chatbot: React.FC<ChatbotProps> = ({ nutritionPlan, onUpdateMeal, m
                     success = onUpdateMeal(day, mealName, oldIngredient, newIngredient, newMealName);
                     result = { status: success ? "OK" : "Failed", message: success ? "Meal updated successfully." : "Could not find the specified meal or ingredient." };
                 } else {
-                    result = { status: "Error", message: `Unknown function call: ${fc.name}` };
+                    result = { status: "Error", message: `Unknown function call: ${fc.name}`};
                 }
 
-                response = await chat.sendMessage({
-                    message: [{
-                        functionResponse: {
-                            id: fc.id,
-                            name: fc.name,
-                            response: result,
-                        }
-                    }]
-                });
+                const functionResponse = {
+                    functionResponses: {
+                        id: fc.id,
+                        name: fc.name,
+                        response: { result: JSON.stringify(result) },
+                    }
+                };
+                response = await chat.sendMessage(functionResponse);
             }
 
 
@@ -96,7 +96,6 @@ export const Chatbot: React.FC<ChatbotProps> = ({ nutritionPlan, onUpdateMeal, m
             setMessages(prev => [...prev, errorMessage]);
         } finally {
             setIsLoading(false);
-            inputRef.current?.focus();
         }
     };
 
@@ -110,8 +109,8 @@ export const Chatbot: React.FC<ChatbotProps> = ({ nutritionPlan, onUpdateMeal, m
                 {messages.map((msg, index) => (
                     <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                         <div className={`max-w-xs md:max-w-md p-3 rounded-2xl ${
-                            msg.role === 'user'
-                                ? 'bg-primary text-white'
+                            msg.role === 'user' 
+                                ? 'bg-primary text-white' 
                                 : 'bg-gray-700 text-on-surface'
                         }`}>
                             <FormattedMessage text={msg.text} />
@@ -133,7 +132,6 @@ export const Chatbot: React.FC<ChatbotProps> = ({ nutritionPlan, onUpdateMeal, m
             </div>
             <div className="mt-4 flex items-center">
                 <input
-                    ref={inputRef}
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
@@ -147,7 +145,7 @@ export const Chatbot: React.FC<ChatbotProps> = ({ nutritionPlan, onUpdateMeal, m
                     disabled={isLoading}
                     className="bg-primary text-white p-3 rounded-r-lg hover:bg-primary-focus disabled:bg-gray-500"
                 >
-                    <PaperAirplaneIcon className="w-6 h-6" />
+                    <PaperAirplaneIcon className="w-6 h-6"/>
                 </button>
             </div>
         </div>

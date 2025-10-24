@@ -1,10 +1,10 @@
+
+
 import React, { useState, useEffect, useRef } from 'react';
-// FIX: Update import paths to point to files inside the 'src' directory.
 import type { WorkoutPlan, DailyWorkout, Exercise, ActiveWorkoutSession, SetLog } from '../types';
 import { generateSpeech, getExerciseSubstitution } from '../services/geminiService';
 import { SpeakerIcon, ArrowPathIcon, CheckCircleIcon } from './icons/Icons';
 import { LoadingSpinner } from './LoadingSpinner';
-// FIX: Update import paths to point to files inside the 'src' directory.
 import { useLanguage } from '../contexts/LanguageContext';
 import { useUserData } from '../contexts/UserDataContext';
 

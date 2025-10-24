@@ -1,7 +1,7 @@
 import { GoogleGenAI, Type, Modality, FunctionDeclaration } from "@google/genai";
 import type { UserProfile, Plan, ChatMessage, Exercise } from '../types';
 
-// FIX: Initialize the GoogleGenAI client using process.env.API_KEY as required.
+// FIX: Initialize the GoogleGenAI client using process.env.API_KEY as required by the guidelines.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 

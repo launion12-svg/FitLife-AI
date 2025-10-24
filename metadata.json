@@ -1,0 +1,8 @@
+{
+  "name": "FitLife AI",
+  "description": "An all-in-one AI-powered health and fitness app that acts as your 24/7 personal trainer and nutritionist. It creates personalized nutrition and training plans, analyzes meals from photos, tracks progress, and provides real-time coaching and motivation.",
+  "requestFramePermissions": [
+    "geolocation",
+    "camera"
+  ]
+}

@@ -2,6 +2,7 @@
 import { GoogleGenAI, Type, Modality, FunctionDeclaration } from "@google/genai";
 import type { UserProfile, Plan, ChatMessage, Exercise } from '../types';
 
+// FIX: The API key must be obtained from process.env.API_KEY as per the guidelines.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 

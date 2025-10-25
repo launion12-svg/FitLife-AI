@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import type { UserProfile } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -261,11 +262,11 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, error, initi
                 
                 <div className="flex items-center gap-4 mt-8">
                     {step > 1 && (
-                        <button type="button" onClick={prevStep} className="btn-secondary">
+                        <button type="button" onClick={prevStep} className="btn-secondary flex-1">
                             {t('onboarding.back')}
                         </button>
                     )}
-                    <button type="submit" className="btn-primary" style={{flexGrow: 1}} disabled={step === 5 && profile.workoutDays.length < 3}>
+                    <button type="submit" className="btn-primary flex-1" style={{flexGrow: 2}} disabled={step === 5 && profile.workoutDays.length < 3}>
                         {step === 5 ? t('onboarding.generatePlan') : `${t('onboarding.next')} →`}
                     </button>
                 </div>

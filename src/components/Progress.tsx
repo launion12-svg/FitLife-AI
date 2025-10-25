@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useUserData } from '../contexts/UserDataContext';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -77,7 +78,6 @@ const ProgressReminder: React.FC = () => {
     const lastDate = new Date(lastEntry.date);
     const today = new Date();
     
-    // Resetting time to compare dates only
     lastDate.setHours(0,0,0,0);
     today.setHours(0,0,0,0);
     

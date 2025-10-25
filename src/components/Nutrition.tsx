@@ -1,5 +1,4 @@
 
-
 import React, { useState, useRef } from 'react';
 import type { NutritionPlan, DailyNutrition } from '../types';
 import { analyzeImage } from '../services/geminiService';

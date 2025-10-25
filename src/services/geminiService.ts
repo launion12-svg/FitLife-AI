@@ -1,3 +1,4 @@
+
 import { GoogleGenAI, Type, Modality, FunctionDeclaration } from "@google/genai";
 import type { UserProfile, Plan, ChatMessage, Exercise } from '../types';
 

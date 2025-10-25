@@ -1,3 +1,4 @@
+
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import type { ProgressEntry, CompletedMealsLog, ActiveWorkoutSession } from '../types';
 

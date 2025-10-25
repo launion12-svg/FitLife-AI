@@ -1,5 +1,4 @@
 
-
 import React, { useState, useCallback } from 'react';
 import { getGroundedResponse, getMapsResponse, generateImage, analyzeImage } from '../services/geminiService';
 import { LoadingSpinner } from './LoadingSpinner';
@@ -37,17 +36,18 @@ export const Explore: React.FC = () => {
                     const query = prompt || t('explore.mapsDefaultQuery');
                     const response = await getMapsResponse(query, { latitude, longitude }, language);
                     setResult({ text: response.text, sources: response.sources });
+                    setIsLoading(false);
                 }, (geoError) => {
                     setError(t('explore.geolocationError', { message: geoError.message }));
                     setIsLoading(false);
                 });
+                return; // Exit here because geolocation is async
             }
         } catch (err) {
             console.error(err);
             setError(t('explore.genericError', { message: err instanceof Error ? err.message : '' }));
-        } finally {
-           if(activeFeature !== 'maps') setIsLoading(false);
         }
+        setIsLoading(false);
     };
     
     const handleProgressImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,14 +95,14 @@ export const Explore: React.FC = () => {
                 <p className="text-on-surface-secondary">{t('explore.mainSubtitle')}</p>
             </header>
             
-            <div className="flex space-x-2 bg-surface p-1 rounded-lg">
-                <button onClick={() => setActiveFeature('search')} className={`w-full p-2 rounded ${activeFeature === 'search' ? 'bg-primary' : 'hover:bg-gray-600'}`}>{t('explore.searchTab')}</button>
-                <button onClick={() => setActiveFeature('maps')} className={`w-full p-2 rounded ${activeFeature === 'maps' ? 'bg-primary' : 'hover:bg-gray-600'}`}>{t('explore.mapsTab')}</button>
-                <button onClick={() => setActiveFeature('imageGen')} className={`w-full p-2 rounded ${activeFeature === 'imageGen' ? 'bg-primary' : 'hover:bg-gray-600'}`}>{t('explore.imagesTab')}</button>
-                <button onClick={() => setActiveFeature('progress')} className={`w-full p-2 rounded ${activeFeature === 'progress' ? 'bg-primary' : 'hover:bg-gray-600'}`}>{t('explore.progressTab')}</button>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1 bg-surface p-1 rounded-lg">
+                <button onClick={() => setActiveFeature('search')} className={`w-full p-2 rounded text-sm ${activeFeature === 'search' ? 'bg-primary' : 'hover:bg-gray-600'}`}>{t('explore.searchTab')}</button>
+                <button onClick={() => setActiveFeature('maps')} className={`w-full p-2 rounded text-sm ${activeFeature === 'maps' ? 'bg-primary' : 'hover:bg-gray-600'}`}>{t('explore.mapsTab')}</button>
+                <button onClick={() => setActiveFeature('imageGen')} className={`w-full p-2 rounded text-sm ${activeFeature === 'imageGen' ? 'bg-primary' : 'hover:bg-gray-600'}`}>{t('explore.imagesTab')}</button>
+                <button onClick={() => setActiveFeature('progress')} className={`w-full p-2 rounded text-sm ${activeFeature === 'progress' ? 'bg-primary' : 'hover:bg-gray-600'}`}>{t('explore.progressTab')}</button>
             </div>
 
-            <div className="bg-surface p-4 rounded-lg shadow-lg">
+            <div className="bg-surface p-4 rounded-lg shadow-lg min-h-[300px]">
                 <div className="flex items-center space-x-3 mb-4">
                     <Icon className="w-6 h-6 text-primary" />
                     <h2 className="text-xl font-bold">{title}</h2>
@@ -110,7 +110,7 @@ export const Explore: React.FC = () => {
 
                 {activeFeature === 'progress' ? (
                      <div>
-                        <p className="text-on-surface-secondary mb-4">{t('explore.progressDescription')}</p>
+                        <p className="text-on-surface-secondary mb-4 text-sm">{t('explore.progressDescription')}</p>
                         <label className="w-full cursor-pointer flex items-center justify-center bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-primary-focus transition-colors disabled:bg-gray-500">
                              <UploadIcon className="w-5 h-5 mr-2" />
                              {t('explore.progressButton')}
@@ -133,13 +133,11 @@ export const Explore: React.FC = () => {
                 )}
 
                 {isLoading && <div className="mt-4 flex justify-center"><LoadingSpinner /></div>}
-                {error && <p className="text-red-500 mt-2">{error}</p>}
+                {error && <p className="text-red-500 mt-2 text-center">{error}</p>}
                 {result && (
                     <div className="mt-4 p-4 bg-background rounded-md">
                         {result.imageUrl && <img src={result.imageUrl} alt="Generated" className="rounded-lg mb-4 max-w-full mx-auto" />}
-                        <div className="prose prose-invert max-w-none">
-                             <pre className="whitespace-pre-wrap font-sans text-on-surface">{result.text}</pre>
-                        </div>
+                        <div className="prose prose-invert max-w-none text-on-surface text-sm" dangerouslySetInnerHTML={{ __html: result.text.replace(/\n/g, '<br />') }} />
                         {result.sources && result.sources.length > 0 && (
                             <div className="mt-4">
                                 <h4 className="font-bold text-sm text-on-surface-secondary">{t('explore.sources')}</h4>

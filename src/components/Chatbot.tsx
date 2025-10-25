@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { getChatbot } from '../services/geminiService';
 import type { ChatMessage, UpdateMealHandler, NutritionPlan } from '../types';

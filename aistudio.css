@@ -224,4 +224,44 @@ img,video{max-width:100%;height:auto}
 .md\\:max-w-md{max-width:28rem}
 .md\\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
 .md\\:grid-cols-5{grid-template-columns:repeat(5,minmax(0,1fr))}
-}
+}  <!-- Equipment Selection (only visible when Casa is selected) -->
+            <div class="form-group" id="equipmentSection" style="display: none;">
+                <label class="days-label">¿Qué equipamiento tienes?</label>
+                
+                <div class="equipment-grid">
+                    <div class="equipment-checkbox">
+                        <input type="checkbox" id="eq-mancuernas" name="equipment" value="mancuernas">
+                        <label for="eq-mancuernas">Mancuernas</label>
+                    </div>
+
+                    <div class="equipment-checkbox">
+                        <input type="checkbox" id="eq-bandas" name="equipment" value="bandas">
+                        <label for="eq-bandas">Bandas de Resistencia</label>
+                    </div>
+
+                    <div class="equipment-checkbox">
+                        <input type="checkbox" id="eq-pesa-rusa" name="equipment" value="pesa-rusa">
+                        <label for="eq-pesa-rusa">Pesa Rusa (Kettlebell)</label>
+                    </div>
+
+                    <div class="equipment-checkbox">
+                        <input type="checkbox" id="eq-barra-dominadas" name="equipment" value="barra-dominadas">
+                        <label for="eq-barra-dominadas">Barra de Dominadas</label>
+                    </div>
+
+                    <div class="equipment-checkbox">
+                        <input type="checkbox" id="eq-bici-estatica" name="equipment" value="bici-estatica">
+                        <label for="eq-bici-estatica">Bici Estática</label>
+                    </div>
+
+                    <div class="equipment-checkbox">
+                        <input type="checkbox" id="eq-cinta-correr" name="equipment" value="cinta-correr">
+                        <label for="eq-cinta-correr">Cinta de Correr</label>
+                    </div>
+
+                    <div class="equipment-checkbox">
+                        <input type="checkbox" id="eq-cardio-exterior" name="equipment" value="cardio-exterior">
+                        <label for="eq-cardio-exterior">Cardio Exterior</label>
+                    </div>
+                </div>
+            </div>

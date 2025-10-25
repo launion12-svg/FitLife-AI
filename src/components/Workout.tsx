@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import type { WorkoutPlan, DailyWorkout, Exercise, ActiveWorkoutSession, SetLog } from '../types';
 import { generateSpeech, getExerciseSubstitution } from '../services/geminiService';
@@ -285,8 +283,8 @@ export const Workout: React.FC<WorkoutProps> = ({ plan, onUpdateWorkout }) => {
             <details className="mt-6">
                 <summary className="text-lg font-bold cursor-pointer text-primary">{t('workout.viewFullSchedule')}</summary>
                 <div className="mt-4 space-y-4">
-                    {plan.schedule.map((workoutDay, index) => (
-                        <div key={index} className="bg-surface p-4 rounded-lg shadow-lg">
+                    {plan.schedule.map((workoutDay) => (
+                        <div key={workoutDay.id} className="bg-surface p-4 rounded-lg shadow-lg">
                             <h3 className="font-bold text-primary">{workoutDay.day}: {workoutDay.focus}</h3>
                             <ul className="text-sm text-on-surface-secondary list-disc list-inside">
                                 {workoutDay.exercises.map(e => <li key={e.id}>{e.name}</li>)}

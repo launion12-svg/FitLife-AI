@@ -57,14 +57,13 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, error, initi
     }));
   };
 
-  const handleEquipmentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = e.target;
+  const handleEquipmentToggle = (equipmentValue: string) => {
     setProfile(prev => {
         const currentEquipment = prev.equipment || [];
-        if (checked) {
-            return { ...prev, equipment: [...currentEquipment.filter(item => item !== 'None'), value] };
+        if (currentEquipment.includes(equipmentValue)) {
+            return { ...prev, equipment: currentEquipment.filter(e => e !== equipmentValue) };
         } else {
-            return { ...prev, equipment: currentEquipment.filter(item => item !== value) };
+            return { ...prev, equipment: [...currentEquipment, equipmentValue] };
         }
     });
   };
@@ -194,14 +193,20 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, error, initi
                 {profile.workoutLocation === 'Home' && (
                     <div className="form-group">
                         <label>{t('onboarding.homeEquipmentTitle')}</label>
-                        <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-2 text-sm">
-                            {equipmentOptions.map(opt => (
-                                <label key={opt.key} className="flex items-center space-x-2 font-normal normal-case tracking-normal">
-                                    <input type="checkbox" value={opt.value} checked={profile.equipment?.includes(opt.value)} onChange={handleEquipmentChange}
-                                        className="!w-4 !h-4 rounded bg-gray-700 border-gray-600 text-primary focus:ring-primary focus:ring-offset-surface"
-                                    />
-                                    <span className="text-on-surface">{t(`onboarding.${opt.key}`)}</span>
-                                </label>
+                        <div className="grid grid-cols-2 gap-3 mt-2">
+                           {equipmentOptions.map(opt => (
+                                <button
+                                    type="button"
+                                    key={opt.key}
+                                    onClick={() => handleEquipmentToggle(opt.value)}
+                                    className={`w-full p-3 text-sm text-center rounded-lg transition-all duration-200 border ${
+                                        profile.equipment?.includes(opt.value)
+                                            ? 'bg-primary border-primary text-white font-bold'
+                                            : 'border-gray-600 bg-background hover:bg-gray-700 hover:border-primary'
+                                    }`}
+                                >
+                                    {t(`onboarding.${opt.key}`)}
+                                </button>
                             ))}
                         </div>
                     </div>

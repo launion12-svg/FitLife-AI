@@ -1,3 +1,4 @@
+
 export type AppScreen = 'dashboard' | 'nutrition' | 'workout' | 'chatbot' | 'explore' | 'progress';
 
 export interface UserProfile {

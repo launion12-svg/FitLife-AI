@@ -160,7 +160,7 @@ const getPlanPrompt = (profile: UserProfile, language: 'en' | 'es'): string => {
     2.  **Workout Plan**: Create a structured workout schedule for the selected days (${workoutDaysText}).
         - The plan should be tailored to the user's location (${profile.workoutLocation}) and available equipment. Include a unique 'id' for each workout day.
         - For each workout day, specify the focus (e.g., 'Push', 'Pull', 'Legs', 'Full Body') based on the intelligent day distribution.
-        - **IMPORTANT**: Include a **Warm-up** section at the start of each workout day with 2-3 dynamic stretching exercises. Clearly label these exercises by adding "(Warm-up)" to the end of their name. The 'rest' time for warm-up exercises MUST be "0s".
+        - **IMPORTANT**: Include a **Warm-up** section at the beginning of each workout day with 2-3 dynamic stretching exercises. Clearly label these exercises by appending "(Warm-up)" to their name. The 'rest' time for warm-up exercises MUST be "0s".
         - Following the warm-up, list 5-6 main exercises per workout. For each exercise, specify a unique 'id', name, sets, reps, and rest time.
         - Provide a clear and concise 'description' for EVERY exercise, explaining the correct form.
     3.  **Summaries**: Provide a brief summary for both the nutrition and workout plans, explaining the strategy.

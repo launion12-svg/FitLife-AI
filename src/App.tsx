@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { Onboarding } from './components/Onboarding';
 import { Dashboard } from './components/Dashboard';
@@ -248,8 +247,8 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background text-on-surface">
-      <LanguageSwitcher />
-      <main className={`pb-20 ${!showNav ? '' : ''}`}>
+      {!showNav && <LanguageSwitcher />}
+      <main className={`pb-20 ${(!showNav || currentScreen === 'chatbot') ? 'h-screen' : ''}`}>
         {renderScreen()}
       </main>
       {showNav && (
